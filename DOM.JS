@@ -1,58 +1,42 @@
-//console.log(window);
-//window.alert(1);
+<template>
+  <div class="container mx-auto mt-8 px-4">
+    <h1 class="text-2xl font-semibold mb-4">Todo List</h1>
+    <form @submit.prevent="addTodo" class="mb-4">
+      <input v-model="newTodo" class="p-2 border rounded w-full" placeholder="Enter a new todo...">
+      <button type="submit" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Add Todo</button>
+    </form>
+    <ul class="space-y-2">
+      <li v-for="todo in todos" :key="todo.id">
+        {{ todo.text }}
+        <button @click="removeTodo(todo)" class="ml-2 bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-2 rounded">X</button>
+      </li>
+    </ul>
+  </div>
+</template>
 
-//single element
-//console.log(document.getElementById('my-form'));
+<script setup>
+import { ref } from 'vue'
 
-//console.log(document.querySelector('h1'));
-//const form = document.getElementById('my-form');
+// give each todo a unique id
+let id = 0
 
-//console.log(form);
+const newTodo = ref('')
+const todos = ref([
+  { id: id++, text: 'Learn HTML' },
+  { id: id++, text: 'Learn JavaScript' },
+  { id: id++, text: 'Learn Vue' }
+])
 
-//multiple element
-//console.log(document.querySelectorAll('.item'));
-//console.log(document.getElementsByClassName('items'));
-//console.log(document.getElementsByTagName('li'));
-
-//const items = document.querySelectorAll('.items');
-
-//items.forEach((items) => console.log(items));
-
-//const ul = document.querySelector('.items');
-
-//ul.remove();
-//ul.lastElementChild.remove();
-//ul.firstElementChild.textContent='hello';
-//ul.children[1].innerText = 'brad';
-//ul.lastElementChild.innerHTML='<h1>hello</h1>'
-
-//const btn = document.querySelector('.btn');
-//btn.style.background = 'red';
-/*
-btn.addEventListener('mouseout', (e) => { //different events
-    e.preventDefault();
-    document.querySelector('#my-form').style.background = '#ccc';
-    //console.log(e.target.id); //to show you the specific code.
-
-    document.querySelector('body').classList.add('bg-dark');
-    document.querySelector('.items').lastElementChild.innerHTML = '<h2>hello</h2>';
-});*/
-
-const Form = document.querySelector('#my-form');
-const nameInput = document.querySelector('#name');
-const email = document.querySelector('#email');
-const msg = document.querySelector('.msg');
-const userlist = document.querySelector('#users');
-
-Form.addEventListener('submit', onSubmit);
-
-function onSubmit(e) {
-    e.preventDefault();
-
-    if(nameInput.value === ''|| email.value ===''){
-        alert('please Enter fields');
-
-    }else{
-        alert('log in success!!');
-    }
+function addTodo() {
+  todos.value.push({ id: id++, text: newTodo.value })
+  newTodo.value = ''
 }
+
+function removeTodo(todo) {
+  todos.value = todos.value.filter((t) => t !== todo)
+}
+</script>
+
+<style scoped>
+/* Add your custom styles here if needed */
+</style>
